@@ -2,7 +2,9 @@
   "dependencies": {
     "aws-sdk": "^2.1262.0",
     "cron": "^2.1.0",
+    "cronitor": "^2.3.3",
     "dotenv": "^16.0.3",
-    "mysqldump": "^3.2.0"
+    "mysqldump": "^3.2.0",
+    "node-cron": "^3.0.2"
   }
 }
