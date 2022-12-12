@@ -1,4 +1,12 @@
 {
+  "name": "node-backupdb",
+  "version": "1.0.0",
+  "description": "Node Backup DB on Docker",
+  "author": "Juliano <juliano@rossiti.com.br>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "aws-sdk": "^2.1262.0",
     "cron": "^2.1.0",
