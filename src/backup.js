@@ -36,16 +36,16 @@ exports.upload = async (fileName) => {
 	console.log(
 		chalk.white.bold(`Starting job at: `),
 		chalk.blue.bold(new Date().toISOString())
-	);
+	)
 	console.log(
 		chalk.yellow.bold(`Reading file: `),
 		chalk.blue.bold(new Date().toISOString())
-	);
+	)
 	const fileContent = fs.readFileSync(backupDirPath + '/' + fileName)
 	console.log(
 		chalk.yellow.bold(`File readed ${fileName} `),
 		chalk.blue.bold(new Date().toISOString())
-	);
+	)
 	// Setting up S3 upload parameters
 	const key = process.env.AWS_BUCKET_FOLDER + '/' + fileName
 	const params = {
@@ -57,7 +57,7 @@ exports.upload = async (fileName) => {
 	console.log(
 		chalk.yellow.bold(`Uploading: `),
 		chalk.blue.bold(new Date().toISOString())
-	);
+	)
 	await s3.upload(params, function (err, data) {
 		if (err) {
 			throw err
@@ -67,9 +67,9 @@ exports.upload = async (fileName) => {
 	console.log(
 		chalk.green.bold(`Uploaded: `),
 		chalk.blue.bold(new Date().toISOString())
-	);
+	)
 	console.log(
 		chalk.green.bold(`Job finished at: `),
 		chalk.blue.bold(new Date().toISOString())
-	);
+	)
 };
