@@ -1,12 +1,18 @@
 require('dotenv/config')
+const chalk = require("chalk")
 const cronitor = require('cronitor')(process.env.CRONITOR_API_KEY)
 const cron = require('node-cron')
-const Backup = require('./backup.js')
+const backup = require('./backup.js')
 
-let start = cronitor.wrap('background-worker', async function() {
-    cron.schedule('0 21 * * *', async()=> {
-        await Backup.exec()
-      });
+let start = cronitor.wrap('node-backupdb', async function () {
+  console.log(
+    chalk.white(`Waiting: `),
+    chalk.blue.bold(new Date().toISOString())
+  );
+  
+  cron.schedule('* * * * *', async () => {   
+    await backup.exec()
+  });
 });
 
 start();

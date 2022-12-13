@@ -1,4 +1,5 @@
 require('dotenv/config')
+const chalk = require("chalk")
 const mysqldump = require('mysqldump')
 const fs = require('fs')
 const path = require('path')
@@ -32,9 +33,19 @@ exports.exec = async () => {
 
 exports.upload = async (fileName) => {
 	// Read content from the file
-	console.log('reading file')
+	console.log(
+		chalk.white.bold(`Starting job at: `),
+		chalk.blue.bold(new Date().toISOString())
+	);
+	console.log(
+		chalk.yellow.bold(`Reading file: `),
+		chalk.blue.bold(new Date().toISOString())
+	);
 	const fileContent = fs.readFileSync(backupDirPath + '/' + fileName)
-	console.log('file readed')
+	console.log(
+		chalk.yellow.bold(`File readed ${fileName} `),
+		chalk.blue.bold(new Date().toISOString())
+	);
 	// Setting up S3 upload parameters
 	const key = process.env.AWS_BUCKET_FOLDER + '/' + fileName
 	const params = {
@@ -43,12 +54,22 @@ exports.upload = async (fileName) => {
 		Body: fileContent
 	}
 	// Uploading files to the bucket
-	console.log('uploading...');
+	console.log(
+		chalk.yellow.bold(`Uploading: `),
+		chalk.blue.bold(new Date().toISOString())
+	);
 	await s3.upload(params, function (err, data) {
 		if (err) {
 			throw err
 		}
 		console.log(`File uploaded successfully. ${data.Location}`)
 	}).promise()
-	console.log('uploaded!')
+	console.log(
+		chalk.green.bold(`Uploaded: `),
+		chalk.blue.bold(new Date().toISOString())
+	);
+	console.log(
+		chalk.green.bold(`Job finished at: `),
+		chalk.blue.bold(new Date().toISOString())
+	);
 };
