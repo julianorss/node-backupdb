@@ -10,14 +10,14 @@ const s3 = new AWS.S3({
 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
-const backupDirPath = path.join(__dirname, process.env.TEMP_FOLDER)
-console.log(backupDirPath)
+const backupPath = path.join(__dirname, process.env.TEMP_FOLDER)
+console.log("Default temporary folder: " + backupPath)
 
 exports.exec = async () => {
-    const backupPath = process.env.TEMP_FOLDER
+    const backupFolder = process.env.TEMP_FOLDER
     const fileName = `backup-${Math.round(Date.now() / 1000)}.dump.sql`
-    
-    const res = backupPath + fileName
+
+    const res = backupFolder + fileName
     await mysqldump({
         connection: {
             host: process.env.DB_HOST,
@@ -27,7 +27,6 @@ exports.exec = async () => {
         },
         dumpToFile: res,
     });
-    
     await this.upload(fileName)
 }
 
@@ -42,11 +41,11 @@ exports.upload = async (fileName) => {
 		chalk.blue.bold(new Date().toISOString())
 	)
 	// Full path and file name
-	const fileFullPath = backupDirPath + '/' + fileName
+	const fileFullPath = backupPath + '/' + fileName
 	const fileContent = fs.readFileSync(fileFullPath)
 
 	console.log(
-		chalk.yellow.bold(`File readed ${fileName} `),
+		chalk.yellow.bold(`File readed ${fileFullPath} `),
 		chalk.blue.bold(new Date().toISOString())
 	)
 	// Setting up S3 upload parameters
