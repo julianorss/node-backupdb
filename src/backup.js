@@ -41,7 +41,10 @@ exports.upload = async (fileName) => {
 		chalk.yellow.bold(`Reading file: `),
 		chalk.blue.bold(new Date().toISOString())
 	)
-	const fileContent = fs.readFileSync(backupDirPath + '/' + fileName)
+	// Full path and file name
+	const fileFullPath = backupDirPath + '/' + fileName
+	const fileContent = fs.readFileSync(fileFullPath)
+
 	console.log(
 		chalk.yellow.bold(`File readed ${fileName} `),
 		chalk.blue.bold(new Date().toISOString())
@@ -62,12 +65,21 @@ exports.upload = async (fileName) => {
 		if (err) {
 			throw err
 		}
-		console.log(`File uploaded successfully. ${data.Location}`)
 	}).promise()
 	console.log(
 		chalk.green.bold(`Uploaded: `),
 		chalk.blue.bold(new Date().toISOString())
 	)
+
+	// Delete uploaded files
+	fs.unlink(fileFullPath, (err) => {
+	if (err) throw err 
+			console.log(
+				chalk.red.bold(`File deleted: `),
+				chalk.red(fileFullPath)
+			)
+	});
+
 	console.log(
 		chalk.green.bold(`Job finished at: `),
 		chalk.blue.bold(new Date().toISOString())
