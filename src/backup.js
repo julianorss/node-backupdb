@@ -10,11 +10,11 @@ const s3 = new AWS.S3({
 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
-const backupDirPath = path.join(__dirname, 'database-backup')
+const backupDirPath = path.join(__dirname, process.env.TEMP_FOLDER)
 console.log(backupDirPath)
 
 exports.exec = async () => {
-    const backupPath = 'database-backup/'
+    const backupPath = process.env.TEMP_FOLDER
     const fileName = `backup-${Math.round(Date.now() / 1000)}.dump.sql`
     
     const res = backupPath + fileName
