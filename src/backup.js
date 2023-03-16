@@ -12,9 +12,6 @@ const s3 = new AWS.S3({
 
 const backupPath = path.join(__dirname, process.env.TEMP_FOLDER)
 
-// Application Start
-console.log('-------STARTING-------')
-
 console.log(
 	chalk.white.bold(`Default temporary folder: `),
 	chalk.white(backupPath)
@@ -90,7 +87,4 @@ exports.upload = async (fileName) => {
 		chalk.green.bold(`Job finished at: `),
 		chalk.blue.bold(new Date().toISOString())
 	)
-
-	// Finish
-	console.log('-------FINISHED-------')
 };
